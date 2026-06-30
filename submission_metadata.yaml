@@ -18,7 +18,7 @@ team_members:
 # ============================================================================
 github_repo: "https://github.com/ShivamKumarPTU/HireIQ"
 
-sandbox_link: "https://huggingface.co/spaces/ShivamKumarPTU/Resume-Analyser-Sandbox"
+sandbox_link: "https://huggingface.co/spaces/Shivam313/HireIQ-Sandbox"
 
 reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./team_dhurandhar.csv"
 
