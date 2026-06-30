@@ -1,0 +1,4 @@
+# Requirements for Redrob AI Candidate Ranking Challenge
+# This pipeline runs entirely on Python standard libraries.
+# No external package installations are required.
+# Recommended Python version: 3.10 or newer (tested on 3.13.6).

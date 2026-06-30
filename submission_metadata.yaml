@@ -1,0 +1,65 @@
+# Redrob Hackathon — Submission Metadata
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "team_dhurandhar"
+
+primary_contact:
+  name: "Shivam Kumar"
+  email: "hire.shivamkumar@gmail.com"
+  phone: "+91-6204081315"
+
+team_members:
+  - name: "Shivam Kumar"
+    email: "hire.shivamkumar@gmail.com"
+    role: "Software Engineer"
+
+
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/ShivamKumarPTU/Resume-Analyser"
+
+sandbox_link: "https://huggingface.co/spaces/ShivamKumarPTU/Resume-Analyser-Sandbox"
+
+reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./team_dhurandhar.csv"
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Windows Local Machine"
+  cpu_cores: 8
+  ram_gb: 16
+  python_version: "3.13.6"
+  os: "Windows"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: false
+  pre_computation_time_minutes: 0
+
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+ai_tools_used:
+  - "Claude"
+  - "Gemini"
+
+ai_usage_summary: |
+  Used Claude/Gemini to discuss overall system design, debug logic rules, and refactor code structure to meet performance constraints. No candidate profile data was submitted to external API endpoints during the scoring process.
+
+# ============================================================================
+# Approach summary
+# ============================================================================
+methodology_summary: |
+  A highly optimized heuristic ranking pipeline designed to execute within 15 seconds. Relies on detailed skill duration parsing, current/past company tier classification (prioritizing product companies over services/consulting), role description keyword hits (shipper vs. researcher), and location/relocation preferences. Incorporates robust honeypot detection to isolate anomalous synthetic profiles (such as impossible skill durations or work history predating company founding dates) and assigns them a zero score.
+
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true

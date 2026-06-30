@@ -52,7 +52,7 @@ This project integrates **Google Gemini AI** for resume analysis and includes se
 
 #### 1. Clone the Repository
 ```bash
-git clone https://github.com/Mohamed-Imran-12/Resume-Analyser.git
+git clone https://github.com/ShivamKumarPTU/Resume-Analyser.git
 ```
 
 #### 2. Open Project in IDE
@@ -155,3 +155,24 @@ Steps:
 ## Disclaimer
 - This project is developed for learning and demonstration purposes
 - AI analysis results may vary and should not be considered professional career advice
+
+
+---
+
+## Redrob AI Candidate Ranking Challenge
+
+This repository includes the intelligent ranking pipeline built for the Redrob AI Challenge (specialized in Search, Information Retrieval, and NLP roles).
+
+### How to Reproduce the Submission CSV
+To run the candidate ranker end-to-end and generate the final leaderboard CSV, use the following command:
+
+```bash
+python rank.py --candidates ./candidates.jsonl --out ./team_dhurandhar.csv
+```
+
+### Features & Implementation
+- **High-Performance CPU Processing**: Processes the entire candidate dataset in **under 16 seconds** (5-minute limit).
+- **Honeypot Filter**: Removes anomalous and synthetic profile patterns (e.g., job duration anomalies, career starting before education, startup employment predating actual founding dates).
+- **AIDA-aligned Dynamic Reasonings**: Generates fact-based, rich justifications explaining top-ranked candidates' strengths, location compatibility, notice periods, and minor risks without LLM hallucinations.
+- **Deterministic Ties**: Correctly sorts candidates descending by score and breaks ties ascending by `candidate_id` as specified by the submission criteria.
+
