@@ -245,6 +245,18 @@ def calculate_score(c):
     skills_match_score = (nlp_score * 1.5 + vec_score * 2.0 + eval_score * 2.5 + 
                           career_nlp_hits * 10.0 + career_vec_hits * 15.0 + career_eval_hits * 20.0)
                           
+    # Skill assessment scores bonus (platform activity check)
+    skill_scores = signals.get("skill_assessment_scores", {})
+    assessment_bonus = 0.0
+    for sname, score in skill_scores.items():
+        sname_lower = sname.lower()
+        if any(k in sname_lower for k in NLP_KEYWORDS | VEC_KEYWORDS | EVAL_KEYWORDS):
+            if score >= 80:
+                assessment_bonus += (score - 70) * 1.5  # up to 45 points per skill
+            elif score >= 60:
+                assessment_bonus += (score - 50) * 0.5  # up to 5 points
+    skills_match_score += assessment_bonus
+
     # 3. Disqualifiers and Penalties
     disqualify_multiplier = 1.0
     
@@ -365,6 +377,52 @@ def calculate_score(c):
     github = signals.get("github_activity_score", -1)
     if github > 50:
         behavior_mult *= 1.1
+
+    # Interview completion rate
+    icr = signals.get("interview_completion_rate", 1.0)
+    if icr >= 0.8:
+        behavior_mult *= 1.2
+    elif icr < 0.4:
+        behavior_mult *= 0.6
+
+    # Offer acceptance rate
+    oar = signals.get("offer_acceptance_rate", -1.0)
+    if oar > 0.7:
+        behavior_mult *= 1.15
+    elif oar == 0.0:
+        behavior_mult *= 0.9
+
+    # Saved by recruiters 30d
+    saved_count = signals.get("saved_by_recruiters_30d", 0)
+    if saved_count >= 3:
+        behavior_mult *= 1.1
+    elif saved_count == 0:
+        behavior_mult *= 0.95
+
+    # Profile completeness score
+    pcs = signals.get("profile_completeness_score", 100.0)
+    if pcs >= 85:
+        behavior_mult *= 1.1
+    elif pcs < 50:
+        behavior_mult *= 0.8
+
+    # Average response time
+    art = signals.get("avg_response_time_hours", 24.0)
+    if art <= 4:
+        behavior_mult *= 1.1
+    elif art >= 48:
+        behavior_mult *= 0.8
+
+    # Connection count
+    conn_count = signals.get("connection_count", 0)
+    if conn_count > 100:
+        behavior_mult *= 1.05
+
+    # Popularity signals (profile views / search appearance)
+    pvr = signals.get("profile_views_received_30d", 0)
+    sa30 = signals.get("search_appearance_30d", 0)
+    if pvr >= 20 or sa30 >= 50:
+        behavior_mult *= 1.05
         
     # Composite Score
     base_score = (exp_score * 0.25 + skills_match_score * 0.65 + loc_score * 0.10)
