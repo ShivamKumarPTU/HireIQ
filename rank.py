@@ -590,17 +590,22 @@ def main():
     # Secondary sort: candidate_id ascending (tie break rule)
     candidates_scores.sort(key=lambda x: (-x[1], x[0]))
     
-    # Normalize scores to [0.0, 1.0] range
+    # Normalize scores to [0.0, 1.0] range and round to 4 decimal places
     normalized_candidates = []
     if candidates_scores:
         max_score = candidates_scores[0][1] # Candidates are sorted, first element has the max score
         if max_score > 0:
             for cid, score, c in candidates_scores:
-                normalized_candidates.append((cid, score / max_score, c))
+                rounded_score = round(score / max_score, 4)
+                normalized_candidates.append((cid, rounded_score, c))
         else:
-            normalized_candidates = candidates_scores
+            for cid, score, c in candidates_scores:
+                normalized_candidates.append((cid, 0.0, c))
     else:
         normalized_candidates = candidates_scores
+        
+    # Re-sort to resolve tie breaks after rounding
+    normalized_candidates.sort(key=lambda x: (-x[1], x[0]))
         
     # Select top 100
     top_100 = normalized_candidates[:100]
@@ -614,7 +619,7 @@ def main():
         for idx, (cid, score, c) in enumerate(top_100):
             rank = idx + 1
             reasoning = generate_reasoning(c, rank)
-            writer.writerow([cid, rank, round(score, 4), reasoning])
+            writer.writerow([cid, rank, score, reasoning])
             
     print("CSV generated successfully.")
 
