@@ -16,9 +16,7 @@ team_members:
 
 
 # ============================================================================
-# Code and reproducibility
-# ============================================================================
-github_repo: "https://github.com/ShivamKumarPTU/Resume-Analyser"
+github_repo: "https://github.com/ShivamKumarPTU/HireIQ"
 
 sandbox_link: "https://huggingface.co/spaces/ShivamKumarPTU/Resume-Analyser-Sandbox"
 
