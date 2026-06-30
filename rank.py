@@ -590,8 +590,20 @@ def main():
     # Secondary sort: candidate_id ascending (tie break rule)
     candidates_scores.sort(key=lambda x: (-x[1], x[0]))
     
+    # Normalize scores to [0.0, 1.0] range
+    normalized_candidates = []
+    if candidates_scores:
+        max_score = candidates_scores[0][1] # Candidates are sorted, first element has the max score
+        if max_score > 0:
+            for cid, score, c in candidates_scores:
+                normalized_candidates.append((cid, score / max_score, c))
+        else:
+            normalized_candidates = candidates_scores
+    else:
+        normalized_candidates = candidates_scores
+        
     # Select top 100
-    top_100 = candidates_scores[:100]
+    top_100 = normalized_candidates[:100]
     
     # Write to CSV
     print(f"Writing top 100 candidates to {args.out}...")
